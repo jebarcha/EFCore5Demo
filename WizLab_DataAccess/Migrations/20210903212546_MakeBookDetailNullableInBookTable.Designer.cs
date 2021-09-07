@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WizLab_DataAccess.Data;
 
 namespace WizLab_DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210903212546_MakeBookDetailNullableInBookTable")]
+    partial class MakeBookDetailNullableInBookTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,21 +96,6 @@ namespace WizLab_DataAccess.Migrations
                     b.HasIndex("Publisher_Id");
 
                     b.ToTable("Books");
-                });
-
-            modelBuilder.Entity("WizLab_Model.Models.BookAuthor", b =>
-                {
-                    b.Property<int>("Author_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Book_Id")
-                        .HasColumnType("int");
-
-                    b.HasKey("Author_Id", "Book_Id");
-
-                    b.HasIndex("Book_Id");
-
-                    b.ToTable("BookAuthors");
                 });
 
             modelBuilder.Entity("WizLab_Model.Models.BookDetail", b =>
@@ -333,25 +320,6 @@ namespace WizLab_DataAccess.Migrations
                     b.Navigation("Publisher");
                 });
 
-            modelBuilder.Entity("WizLab_Model.Models.BookAuthor", b =>
-                {
-                    b.HasOne("WizLab_Model.Models.Author", "Author")
-                        .WithMany()
-                        .HasForeignKey("Author_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WizLab_Model.Models.Book", "Book")
-                        .WithMany("BookAuthor")
-                        .HasForeignKey("Book_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Author");
-
-                    b.Navigation("Book");
-                });
-
             modelBuilder.Entity("WizLab_Model.Models.Fluent_Book", b =>
                 {
                     b.HasOne("WizLab_Model.Models.Fluent_BookDetail", "Fluent_BookDetail")
@@ -388,11 +356,6 @@ namespace WizLab_DataAccess.Migrations
                     b.Navigation("Fluent_Author");
 
                     b.Navigation("Fluent_Book");
-                });
-
-            modelBuilder.Entity("WizLab_Model.Models.Book", b =>
-                {
-                    b.Navigation("BookAuthor");
                 });
 
             modelBuilder.Entity("WizLab_Model.Models.BookDetail", b =>
